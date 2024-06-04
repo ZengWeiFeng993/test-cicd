@@ -8,6 +8,12 @@ jobs:
         with:
           host: ${{secrets.SSH_HOST}}
           username: ${{secrets.username}}
-          password: ${{secrets.password}}
+          password: ${{secrets.password
+          script_stop: true
+          script: |
+            ls -al
+            touch test.txt
+            echo "hello gama" >> test.txt
+            cat test.txt
 
 
