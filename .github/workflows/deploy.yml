@@ -1,26 +1,45 @@
 name: Deploy test-cicd
+
 on: [ push ]
+
 jobs:
   Deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: appleboy/ssh-action@v0.1.7
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          host: ${{secrets.SSH_HOST}}
-          username: ${{secrets.username}}
-          password: ${{secrets.password}}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
           script_stop: true
           script: |
-            ls -al
-            cd ../
-            ls -al
-            cd ~
-            ls -al
-#            cd root/resource/nginx
-#            rm -rf test-cicd
-#            git clone git@github.com:ZengWeiFeng993/test-cicd.git -b ${{ github.ref_name }}
-#            cd test-cicd
-#            npm i
-#            npm run build
+            # 移动到目标目录
+            cd /var/www
+            
+            # 如果存在旧的项目目录，则删除
+            if [ -d "test-cicd" ]; then
+              sudo rm -rf test-cicd
+            fi
 
+            # 克隆最新的代码到项目目录
+            sudo git clone https://github.com/ZengWeiFeng993/test-cicd.git -b ${{ github.ref_name }}
 
+            # 移动到项目目录
+            cd test-cicd
+
+            # 安装依赖并构建项目
+            sudo npm install
+            sudo npm run build
+
+            # 重启 Nginx 服务
+            sudo systemctl restart nginx
