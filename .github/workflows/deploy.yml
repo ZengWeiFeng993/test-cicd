@@ -1,0 +1,13 @@
+name: Deploy test-cicd
+on: [ push ]
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.username}}
+          password: ${{secrets.password}}
+
+
