@@ -11,12 +11,16 @@ jobs:
           password: ${{secrets.password}}
           script_stop: true
           script: |
-            cd /root/resource/nginx
             ls -al
-            rm -rf test-cicd
-            git clone git@github.com:ZengWeiFeng993/test-cicd.git -b ${{ github.ref_name }}
-            cd test-cicd
-            npm i
-            npm run build
-            
-            
+            cd ../
+            ls -al
+            cd ~
+            ls -al
+#            cd root/resource/nginx
+#            rm -rf test-cicd
+#            git clone git@github.com:ZengWeiFeng993/test-cicd.git -b ${{ github.ref_name }}
+#            cd test-cicd
+#            npm i
+#            npm run build
+
+
