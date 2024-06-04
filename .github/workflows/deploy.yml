@@ -11,6 +11,7 @@ jobs:
           password: ${{secrets.password}}
           script_stop: true
           script: |
+            ls -al
             cd /root/resource/nginx
             ls -al
             rm -rf test-cicd
