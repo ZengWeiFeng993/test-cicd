@@ -1,6 +1,9 @@
 name: Deploy test-cicd
 
-on: [ push ]
+on:
+  push:
+    branches:
+      - main  # 你要部署的分支
 
 jobs:
   Deploy:
@@ -10,12 +13,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Deploy to Server
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
           script_stop: true
           script: |
             # 移动到目标目录

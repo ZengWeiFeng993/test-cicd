@@ -1,5 +1,5 @@
 <template>
-  <div>default</div>
+  <div>hello jenkins</div>
 </template>
 
 <script setup>
