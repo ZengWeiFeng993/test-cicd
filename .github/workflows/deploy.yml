@@ -13,7 +13,7 @@ jobs:
           script: |
             ls -al
             touch test.txt
-            echo "hello gama1" >> test.txt
+            echo "hello gama2" >> test.txt
             cat test.txt
 
 
